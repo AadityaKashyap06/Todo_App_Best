@@ -1,0 +1,208 @@
+code _1 // the html structure of page1 :_
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>U2C3</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <!-- Dont make any changes here -->
+      <a href="./favv.html">Favourites</a>
+    <h1>TODO App</h1>
+    
+
+    <div>
+      <!-- ***** We are using form here  ****  -->
+      <form>
+        <label for="">Task Name</label><br />
+        <input id="task" type="text" placeholder="Enter Task Name" /><br />
+        <label for="">Priority </label><br />
+        <select id="priority">
+          <option value="">Select Priority</option>
+          <option value="High">High</option>
+          <option value="Low">Low</option>
+        ><br />
+        <input type="submit" />
+      </form>
+      <table>
+        <!-- Dont change order of columns -->
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Favourite</th>
+            <th>Delete</th>
+                <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- Append your output to tbody -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+
+<script src="index.js"></script>
+    //////////
+js code for page1:_\
+
+   let form=document.querySelector("form");
+   let task=document.getElementById("task");
+   let prio=document.getElementById("priority");
+   let bod=document.querySelector("tbody");
+   let arr=localStorage.getItem("ss1");
+   if(arr==null){
+    arr=[]
+   }else{
+    arr=JSON.parse(arr);
+   }
+   let arr1=localStorage.getItem("ss2");
+   if(arr1==null){
+    arr1=[]
+   }else{
+    arr1=JSON.parse(arr1);
+   }
+   form.addEventListener("submit",(e)=>{
+    e.preventDefault();
+        let obj={
+            task:task.value,
+            priority:prio.value
+        };
+     if(!arr.some((x  => (x.task).toUpperCase()===(obj.task).toUpperCase()))){
+       arr.push(obj);
+       localStorage.setItem("ss1",JSON.stringify(arr));
+       display(arr);
+     }else{
+        alert(`task already added`)
+     }
+        
+   })
+   function display(arr){
+    bod.innerHTML=null;
+    for(let i=0;i<arr.length;i++){
+        let row=document.createElement("tr");
+         let tc1=document.createElement('td');
+         tc1.innerText=arr[i].task;
+         let tc2=document.createElement('td');
+         tc2.innerText=arr[i].priority;
+         let tc3=document.createElement('td');
+         tc3.innerText=`Delete`;
+            tc3.addEventListener("click",()=>{
+                   let k=arr.filter((a,b)=>{
+                      if(b==i){
+                          return false;
+                      }else{
+                          return true;
+                      }
+                   })
+                   localStorage.setItem("ss1",JSON.stringify(k));
+                   display(k);
+            })
+         let tc33=document.createElement('td');
+         tc33.innerText=`add to favourite`
+         tc33.addEventListener("click",()=>{
+            if(!arr1.some((x  => (x.task).toUpperCase()===(arr[i].task).toUpperCase()))){
+                arr1.push(arr[i]);
+                localStorage.setItem("ss2",JSON.stringify(arr1));
+              }else{
+                 alert(`task already added to favourite`)
+              }
+         })
+         let tc4=document.createElement('td');
+         tc4.innerText=`Edit`;
+         tc4.addEventListener("click",()=>{
+              let task=prompt("add task here",arr[i].task)
+              let prio=prompt("add task here",arr[i].priority);
+              arr[i].task=task;
+              arr[i].priority=prio;
+              localStorage.setItem("ss1",JSON.stringify(arr));
+              display(arr);
+         })
+         row.append(tc1,tc2,tc33,tc3,tc4);
+         bod.append(row);
+         }
+  }
+  
+
+    //////////////////////////////////
+code for page 2 ...cart page:_
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            width:50%;
+        }
+        td{
+            font-size: 40px;
+        }
+        th{
+            font-size: 40px;
+        }
+        button{
+            font-size: 40px;
+            width: 100%;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <a href="./index.html">Back</a>
+    <table border="2px" cellspacing="1">
+        <!-- Dont change order of columns -->
+       
+        <thead >
+          <tr>
+            <th>Task</th>
+            <th>Priority</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+        <!-- Append your output to tbody -->
+        </tbody>
+      </table>
+</body>
+</html>
+<script>
+    let bod=document.querySelector("tbody");
+    let arr1=localStorage.getItem("ss2");
+   if(arr1==null){
+    arr1=[]
+   }else{
+    arr1=JSON.parse(arr1);
+   }
+   display(arr1);
+   function display(arr){
+    bod.innerHTML=null;
+    for(let i=0;i<arr.length;i++){
+        let row=document.createElement("tr");
+         let tc1=document.createElement('td');
+         tc1.innerText=arr[i].task;
+         let tc2=document.createElement('td');
+         tc2.innerText=arr[i].priority;
+         let tc3=document.createElement('button');
+         tc3.innerText=`Delete`;
+            tc3.addEventListener("click",()=>{
+                   let k=arr.filter((a,b)=>{
+                      if(b==i){
+                          return false;
+                      }else{
+                          return true;
+                      }
+                   })
+                   localStorage.setItem("ss2",JSON.stringify(k));
+                   display(k);
+            })
+         row.append(tc1,tc2,tc3);
+         bod.append(row);
+         }
+  }
+</script>
